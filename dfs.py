@@ -10,6 +10,7 @@ class dfs:
         self.pred = [[] for _ in range(v)]
         self.done = [[] for _ in range(v)]
         self.tree_edges = []
+        self.topological_sort = []
 
     def print_graph_list(self):
         print("Adjacency List Representation:")
@@ -39,6 +40,7 @@ class dfs:
                 self.pred[neighbour] = node
                 self.recursive_dfs_visit(neighbour)
         self.colors[node] = 'BLACK'
+        self.topological_sort.insert(0, node)
         self.done[node] = self.time
         self.time += 1
 
@@ -54,6 +56,9 @@ class dfs:
     def print_pred(self):
         print(self.pred)
 
+    def print_topological_sort(self):
+        print(self.topological_sort)
+
     def check_forward_cross_arc(self):
         for node in range(self.v):
             for neighbour in self.graph_list[node]:
@@ -63,25 +68,22 @@ class dfs:
                     self.forward_arc_count += 1
         return self.forward_arc_count
 
-
-def check_ancestor(seen, done, v, w):
-    if (seen[v] < seen[w] and done[v] > done[w]):
-        return "Tree or forward edge"
-    elif (seen[v] > seen[w] and done[v] < done[w]):
-        return "Back edge"
-    elif (seen[v] > seen[w] and done[v] > done[w]):
-        return "Cross edge"
-
-
-graph = dfs(6)
-graph.add_edges(0, [3, 5])  # 0 --> 1, 2, 3 eg
-graph.add_edges(1, [2])
-graph.add_edges(2, [])
-graph.add_edges(3, [4])
-graph.add_edges(4, [])
-graph.add_edges(5, [4])
-graph.dfs(4)
-graph.print_pred()
+    def check_ancestor(self, v, w):
+        if (self.seen[v] < self.seen[w] and self.done[v] > self.done[w]):
+            return "Tree or forward edge"
+        elif (self.seen[v] > self.seen[w] and self.done[v] < self.done[w]):
+            return "Back edge"
+        elif (self.seen[v] > self.seen[w] and self.done[v] > self.done[w]):
+            return "Cross edge"
 
 
-print(check_ancestor([0, 1, 3, 6, 5], [9, 2, 4, 7, 8], 3, 1))
+graph = dfs(7)
+graph.add_edges(0, [])
+graph.add_edges(1, [0])
+graph.add_edges(2, [0])
+graph.add_edges(3, [0, 1])
+graph.add_edges(4, [1, 3, 6])
+graph.add_edges(5, [3, 4, 6])
+graph.add_edges(6, [2])
+graph.dfs(6)
+graph.print_topological_sort()
