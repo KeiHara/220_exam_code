@@ -77,13 +77,20 @@ class dfs:
             return "Cross edge"
 
 
-graph = dfs(7)
-graph.add_edges(0, [])
-graph.add_edges(1, [0])
-graph.add_edges(2, [0])
-graph.add_edges(3, [0, 1])
-graph.add_edges(4, [1, 3, 6])
-graph.add_edges(5, [3, 4, 6])
-graph.add_edges(6, [2])
-graph.dfs(6)
-graph.print_topological_sort()
+graph = dfs(0)
+graph.done = [9, 2, 4, 7, 8]
+graph.seen = [0, 1, 3, 6, 5]
+print(graph.check_ancestor(3, 1))
+
+
+for i in range(6):
+    graph = dfs(7)
+    graph.add_edges(0, [])
+    graph.add_edges(1, [0])
+    graph.add_edges(2, [0])
+    graph.add_edges(3, [0, 1])
+    graph.add_edges(4, [1, 3, 6])
+    graph.add_edges(5, [3, 4, 6])
+    graph.add_edges(6, [2])
+    graph.dfs(i)
+    graph.print_topological_sort()

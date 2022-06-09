@@ -61,13 +61,12 @@ class bfs:
         print(self.seen)
 
 
-graph = bfs(7)
-graph.add_edges(1, [])
-graph.add_edges(2, [1])
-graph.add_edges(3, [1])
-graph.add_edges(4, [1, 2])
-graph.add_edges(5, [2, 4, 7])
-graph.add_edges(6, [4, 5, 7])
-graph.add_edges(7, [3])
-graph.bfs(4)
-graph.print()
+for i in range(5):
+    graph = bfs(5)
+    graph.add_edges(0, [1, 2, 3])
+    graph.add_edges(1, [2])
+    graph.add_edges(2, [])
+    graph.add_edges(3, [1])
+    graph.add_edges(4, [0, 1, 2, 3])
+    graph.bfs(i)
+    graph.print_pred()
